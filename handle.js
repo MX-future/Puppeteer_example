@@ -1,4 +1,6 @@
 const puppeteer = require('puppeteer');
+const merge = require('easy-pdf-merge');
+
 
 //爬取拉勾网职位信息
 module.exports.testOne = function(){
@@ -193,6 +195,7 @@ module.exports.testFive = function(){
         //关闭当前页面
         page.close();
 
+
         //批量生成PDF
         for(let i = 1;i<result.length;i++){
             const page2 = await browser.newPage();
@@ -227,6 +230,24 @@ module.exports.testFive = function(){
             page2.close();
         }
         console.log('所有PDF文件已生成')
+
+        //将所有PDF文件合并为一个文件
+         function Merge(){
+            //配置文件路径
+            let files = [];
+            //配置文件路径
+            for(let i = 1;i<result.length;i++){
+                files.push('PDF/'+(i)+'.'+result[i].name+'.pdf')
+            }
+            console.log(files);
+            merge(files,'ES6.pdf',function(err){
+                if(err)
+                    return console.log(err);
+                console.log('所有文件合并完成！');
+
+            });
+        }
+        Merge();
         //关闭浏览器
         //await browser.close();
     })();
