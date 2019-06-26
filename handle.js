@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const merge = require('easy-pdf-merge');
+const fs=require("fs");
 
 
 //爬取拉勾网职位信息
@@ -219,6 +220,20 @@ module.exports.testFive = function(){
                 });
             }
 
+
+            //判断PDF文件夹是否存在
+            let outputPath = `${__dirname}/PDF`;
+            let isExist = fs.existsSync(outputPath);
+            //不存在则创建
+            if(!isExist){
+                try{
+                    fs.mkdirSync(outputPath);
+                    console.log('mkdir is successful!');
+                } catch(e){
+                    console.log('mkdir is failed!', e);
+                }
+            }
+
             //生成PDF,这里需要注意一点，打印pdf需要把无头浏览器界面关掉，即把headless设为true或者不设置
             await page2.pdf({
                 path: './PDF/'+i+'.'+result[i].name+'.pdf',
@@ -235,7 +250,6 @@ module.exports.testFive = function(){
          function Merge(){
             //配置文件路径
             let files = [];
-            //配置文件路径
             for(let i = 1;i<result.length;i++){
                 files.push('PDF/'+(i)+'.'+result[i].name+'.pdf')
             }
