@@ -9,3 +9,5 @@ Puppeteer环境安装
 cnpm install puppeteer
 
 做了个生成PDF文件的功能，爬取阮一峰老师的《ECMAScript 6 入门》并批量生成为PDF文件，暂时未做合并功能
+
+6月25日    新增自动合并功能
